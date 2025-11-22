@@ -450,6 +450,30 @@ class LSLL
             temp = temp->next;
         }
     }   
+
+void reverseList()
+    {
+        if (isEmpty())
+        {
+            cout << "List is empty, cannot reverse" << endl;
+            return;
+        }
+
+        Node<T>* prev = nullptr;
+        Node<T>* curr = head;
+        Node<T>* next = nullptr;
+
+        while (curr != nullptr)
+        {
+            next = curr->next;   
+            curr->next = prev;   
+            prev = curr;         
+            curr = next;         
+        }
+
+        head = prev;  // update head
+        cout << "List reversed successfully" << endl;
+    }
 };
 int main()
 {
