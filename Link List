@@ -1,0 +1,465 @@
+#include<iostream>
+#include<array>
+#include<string>
+
+using namespace std;
+
+template<typename T>
+class Node
+{
+	public:
+		T data;
+		Node<T>* next;  //the pointer type must also be treated like a template.
+    
+    	Node()
+    	{
+	    	data=0;
+	    	next=nullptr;
+		}
+	
+		Node(T d)
+		{
+			data=d;
+			next=nullptr;
+		}
+		
+		Node(T d, Node<T>* p) //p is a pointer to another node.It contains an address of a node.
+		{
+			data=d;
+			next=p;
+		}
+};
+
+template<typename T>
+class LSLL
+{
+	protected:
+		Node<T>* head;
+		
+	public:
+		LSLL()
+		{
+			head=nullptr; 
+		}
+		
+		~LSLL()
+		{
+			Node<T>* temp = head;
+            while (temp != nullptr)
+          {
+	         Node<T>* nextNode = temp->next;
+	         delete temp;
+	         temp = nextNode;
+	      }
+	        head = nullptr;
+			
+		}
+		
+		bool isEmpty()
+		{
+			bool r=false;
+			if(head==nullptr) //the reason to do this is because head->next points to the node after head and we only want to check head.
+			{
+			  r=true;
+		    }
+		    return r;
+		}
+		
+		void insertAtHead(T v)
+		{
+		   Node<T>* t= new Node<T>(v);  
+		   t->next=head;  
+		   head=t; 	   
+        }
+		
+		void insertAtTail(T v)
+		{
+			Node<T>* t= new Node<T>(v);
+			if(isEmpty())
+			{
+				head=t;
+				return;
+			}
+			
+			Node<T>* temp=head;
+			while(temp->next!=nullptr)
+			{
+				temp=temp->next;
+			}
+			
+			temp->next=t;
+		}
+		
+		void insertAfter(T key,T v)
+		{
+			if(isEmpty())
+			{
+				cout<<"List is empty"<<endl;
+				return;
+			}
+			
+			Node<T>* temp=head;
+			while(temp->next!=nullptr && temp->data!=key)
+			{
+				temp=temp->next;
+			}
+			
+			if(temp->data!=key)
+			{
+				cout<<"Key not found"<<endl;
+				return;
+			}
+			
+			Node<T>* t=new Node<T>(v);
+			t->next=temp->next;
+			temp->next=t;
+		}
+		
+        void insertBefore(T key,T v)
+		{
+			Node<T>* prev=nullptr;
+			Node<T>* curr=head;
+			
+			if(isEmpty())
+			{
+				cout<<"List is empty"<<endl;
+				return;
+			}
+			
+			 if (head->data == key) 
+			 {
+		         Node<T>* t = new Node<T>(v);
+		         t->next = head;  
+		         head = t;        
+		         return;
+            }
+			
+			while(curr->next!=nullptr && curr->data!=key)
+			{
+				prev=curr;
+				curr=curr->next;
+			}
+			
+			if(curr==nullptr)
+			{
+				cout<<"Key not found"<<endl;
+				return;
+			}
+			
+			Node<T>* t = new Node<T>(v);
+            prev->next = t;
+            t->next = curr;
+		}
+		
+        void removeHead() 
+		{
+			if (isEmpty())
+			{
+		        cout << "List is empty"<<endl;
+		        return;
+		    }
+		
+		    Node<T>* temp = head;       
+		    head = head->next;       
+		    delete temp;             
+		}
+   
+        void removeTail()
+        {
+            if (isEmpty()) { //empty
+                cout << "List is empty" << endl;
+                return;
+            }
+
+            if (head->next == nullptr) { //only one node
+                delete head;
+                head = nullptr;  //avoid dangling pointer
+                cout << "Tail node removed" << endl;
+                return;
+            }
+
+            Node<T>* prev = nullptr;
+            Node<T>* curr = head;
+
+            while (curr->next != nullptr) {
+                prev = curr;
+                curr = curr->next;
+            }
+
+            prev->next = nullptr;
+            delete curr;
+            cout << "Tail node removed" << endl;
+        }
+
+        void removeAfter(T key) 
+        {
+            if (isEmpty()) 
+            {
+                cout << "List is empty" << endl;
+                return;
+            }
+
+            Node<T>* temp = head;
+
+            while (temp != nullptr && temp->data != key)
+            {
+                temp = temp->next;
+            }
+
+            if (temp == nullptr)
+            {
+                cout << "Key not found" << endl;
+                return;
+            }
+
+            if (temp->next == nullptr)
+            {
+                cout << "No node exists after the key" << endl;
+                return;
+            }
+
+            Node<T>* t = temp->next;
+            temp->next = t->next;
+            delete t;
+
+            cout << "Node after " << key << " deleted successfully" << endl;
+        }
+
+        void removeBefore(T key)
+        {
+            if (isEmpty()) 
+            {
+                cout << "List is empty" << endl;
+                return;
+            }
+
+            if (head->data == key)
+            {
+                cout << "No node exists before the key" << endl;
+                return;
+            }
+
+            Node<T>* prevPrev = nullptr;
+            Node<T>* prev = head;
+            Node<T>* curr = head->next;
+
+            while (curr != nullptr && curr->data != key)
+            {
+                prevPrev = prev;
+                prev = curr;
+                curr = curr->next;
+            }
+
+            if (curr == nullptr)
+            {
+                cout << "Key not found" << endl;
+                return;
+            }
+
+            if (prevPrev == nullptr)
+            {
+                head = curr;
+                delete prev;
+            }
+            else
+            {
+                prevPrev->next = curr;
+                delete prev;
+            }
+
+            cout << "Node before " << key << " deleted successfully" << endl;
+        }
+
+        bool search(T key)
+        {
+            Node<T>* temp = head;
+            while (temp != nullptr)
+            {
+                if (temp->data == key)
+                    return true;
+                temp = temp->next;
+            }
+            return false;
+        }
+
+        void update(T v, T newv)
+        {
+            if (isEmpty())
+            {
+                cout << "List is empty" << endl;
+                return;
+            }
+
+            Node<T>* temp = head;
+            while (temp!= nullptr && temp->data!= v)
+            {
+                temp = temp->next;
+            }
+
+            if (temp==nullptr)
+            {
+                cout << "Value not found" << endl;
+                return;
+            }
+
+            temp->data = newv;
+            cout << "Value updated successfully" << endl;
+        }
+
+        void remove(T key)
+        {
+            if (isEmpty())
+            {
+                cout << "List is empty" << endl;
+                return;
+            }
+
+            if (head->data == key)
+            {
+                Node<T>* temp = head;
+                head = head->next;
+                delete temp;
+                cout << "Node with value " << key << " removed successfully" << endl;
+                return;
+            }
+
+            Node<T>* prev = nullptr;
+            Node<T>* curr = head;
+
+            while (curr != nullptr && curr->data != key)
+            {
+                prev = curr;
+                curr = curr->next;
+            }
+
+            if (curr == nullptr)
+            {
+                cout << "Key not found" << endl;
+                return;
+            }
+
+            prev->next = curr->next;
+            delete curr;
+
+            cout << "Node with value " << key << " removed successfully" << endl;
+        }
+
+        void display()
+        {
+            if (isEmpty())
+            {
+                cout << "list is empty" << endl;
+                return;
+            }
+
+            Node<T>* temp = head;
+            while (temp != nullptr)
+            {
+                cout << temp->data << " ";
+                temp = temp->next;
+            }
+            cout << endl;
+        }
+        
+        int countNodes()
+        {
+        	int count=0;
+        	
+        	while(head!=nullptr)
+        	{
+        		count++;
+        		head=head->next;
+			}
+			
+			return count;
+		}
+		
+		bool removeKthNode(int k, int  &val)
+		{
+			int count=1;
+			if(isEmpty())
+			{
+				cout<<"Listt is empty"<<endl;
+				return false;
+			}
+		
+		   int length=this->countNodes();
+		   if(length<k)
+		   {
+		   	 cout<<"The "<<k<<"th "<<"node does not exist"<<endl;	 
+		   	 return false;
+		   }
+		   
+		   
+			Node<T> *temp=head;cout << temp->data;
+			Node<T> *prev=nullptr;
+			cout << "lol";
+			while(temp->next!=nullptr)
+			{
+				cout<<"print";
+				if(count==k)
+				{
+					val =  temp->data;
+				  prev->next=temp->next;
+			      delete temp;
+			     return true;
+				}
+				
+				prev=temp;
+				temp=temp->next;
+				count++;
+			}
+			
+		 
+   }
+   
+   void combine (LSLL&list1, LSLL& list2)
+   {
+   	 Node<T> *temp1=list1.head;
+   	 Node<T> *temp2=list2.head;
+   	 this->head=temp1;
+   	 
+   	 while(temp1->next!=nullptr)
+   	 {
+   	 	temp1=temp1->next;
+	 }
+	 temp1->next=temp2;
+   	 
+   }
+   
+   
+   void removeDuplicate()
+    {
+        Node<T> *temp = head;
+        while (temp!=nullptr)
+        {
+            Node<T> *t = temp;
+            while (t->next!=nullptr)
+            {
+                if (t->next->data == temp->data)
+                {  
+				   Node<T> *toBeDeleted = t->next;
+                    t->next = toBeDeleted->next;
+                    delete toBeDeleted ;
+                }
+                else
+                {
+                    t=t->next;
+                }
+            }
+            temp = temp->next;
+        }
+    }   
+};
+int main()
+{
+    LSLL<int> list;
+    list.insertAtHead(10);
+    list.insertAtTail(20);
+    list.insertAtTail(30);
+    list.insertAtTail(40);
+    list.insertAtTail(20);
+    list.display();
+    return 0;
+    
+}
