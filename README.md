@@ -1,12 +1,11 @@
-# Singly Linked List (Template-Based) in C++
+# DATA STRUCTURES IN C++
 
-This repository contains a **template-based Singly Linked List (LSLL)** implemented in C++.  
-It allows basic linked list operations and can work with any data type (int, float, string, etc.).
+This repository contains a **template-based data structures** implemented in C++.  
+It allows basic operations using data structures and can work with any data type (int, float, string, etc.).
 
 ---
 
-## 🌟 Features (First Day Implementation)
-
+## 🌟 Day 1 Implementation – Linear Singly Linked List (LSLL)
 - Insert at head and tail  
 - Display the linked list  
 - Template-based for generic data types  
@@ -32,6 +31,7 @@ int main()
     return 0;
 }
 
+```
 ## 🌟 Day 2 Implementation – Circular Singly Linked List (CSLL)
 
 **Features:**
@@ -72,3 +72,6 @@ int main() {
 
     return 0;
 }
+
+```
+
