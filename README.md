@@ -74,4 +74,44 @@ int main() {
 }
 
 ```
+# 🌟 Day 3 – Doubly Linked List (DLL)
+
+## ✅ Features Implemented Today
+- Insert at **head**  
+- Insert at **tail**  
+- Remove a node by value  
+- Search for a value  
+- Update a specific value  
+- Count total nodes  
+- Display the list  
+- Proper constructor & destructor (safe memory cleanup)
+
+---
+
+## 📘 Example Usage
+```cpp
+#include <iostream>
+#include "DLL.h"
+
+int main() {
+    DLL<int> list;
+
+    list.insertAtHead(10);
+    list.insertAtTail(20);
+    list.insertAtTail(30);
+    list.display();   // Output: 10 20 30
+
+    list.remove(20);  // deletes 20
+    list.display();   // Output: 10 30
+
+    std::cout << "Found 30? " << list.search(30) << std::endl;
+
+    list.update(30, 99);
+    list.display();   // Output: 10 99
+
+    std::cout << "Total nodes: " << list.countNodes() << std::endl;
+
+    return 0;
+}
+```
 
