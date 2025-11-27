@@ -1,0 +1,225 @@
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class Node {
+public:
+    T data;
+    Node<T>* next;
+    Node<T>* prev;
+
+    Node() {
+        data = 0;
+        next = nullptr;
+        prev = nullptr;
+    }
+
+    Node(T d) {
+        data = d;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
+
+template <typename T>
+class CDLL {
+private:
+    Node<T>* head;
+    Node<T>* tail;
+
+public:
+    CDLL() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    ~CDLL() {
+
+        Node<T>* current = head->next;
+        while (current != head) {
+            Node<T>* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
+        delete head;
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void insertAtTail(T value) {
+        Node<T>* newNode = new Node<T>(value);
+        if (head == nullptr) {
+            head = tail = newNode;
+            head->next = head;
+            head->prev = head;
+        } else {
+            newNode->prev = tail;
+            newNode->next = head;
+            tail->next = newNode;
+            head->prev = newNode;
+            tail = newNode;
+        }
+    }
+
+    void insertAtHead(T value) {
+        Node<T>* newNode = new Node<T>(value);
+        if (head == nullptr) {
+            head = tail = newNode;
+            head->next = head;
+            head->prev = head;
+        } else {
+            newNode->next = head;
+            newNode->prev = tail;
+            tail->next = newNode;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+
+    void remove(T value) {
+        if (head == nullptr) {
+            cout << "List is empty!" << endl;
+            return;
+        }
+
+        Node<T>* temp = head;
+        bool found = false;
+
+        while (true) {
+            if (temp->data == value) {
+                found = true;
+                break;
+            }
+            temp = temp->next;
+            if (temp == head)
+                break;
+        }
+
+        if (!found) {
+            cout << "Value not found!" << endl;
+            return;
+        }
+
+        // If only one node
+        if (temp == head && temp == tail) {
+            delete temp;
+            head = tail = nullptr;
+        }
+        // Deleting head
+        else if (temp == head) {
+            head = head->next;
+            head->prev = tail;
+            tail->next = head;
+            delete temp;
+        }
+        // Deleting tail
+        else if (temp == tail) {
+            tail = tail->prev;
+            tail->next = head;
+            head->prev = tail;
+            delete temp;
+        }
+        // Deleting middle node
+        else {
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+            delete temp;
+        }
+
+        cout << "Node deleted!" << endl;
+    }
+
+    bool search(T value) {
+        if (head == nullptr)
+            return false;
+
+        Node<T>* temp = head;
+        while (true) {
+            if (temp->data == value)
+                return true;
+            temp = temp->next;
+            if (temp == head)
+                break;
+        }
+        return false;
+    }
+
+    void update(T key, T value) {
+        if (head == nullptr) {
+            cout << "List is empty!" << endl;
+            return;
+        }
+
+        Node<T>* temp = head;
+        while (true) {
+            if (temp->data == key) {
+                temp->data = value;
+                cout << "Updated " << key << " to " << value << endl;
+                return;
+            }
+            temp = temp->next;
+            if (temp == head)
+                break;
+        }
+
+        cout << "Key " << key << " not found in the list." << endl;
+    }
+
+    int countNodes() {
+        if (head == nullptr)
+            return 0;
+
+        int count = 0;
+        Node<T>* temp = head;
+
+        while (true) {
+            count++;
+            temp = temp->next;
+            if (temp == head)
+                break;
+        }
+
+        return count;
+    }
+
+    void display() {
+        if (head == nullptr) {
+            cout << "List is empty!" << endl;
+            return;
+        }
+
+        Node<T>* temp = head;
+        while (true) {
+            cout << temp->data << " ";
+            temp = temp->next;
+            if (temp == head)
+                break;
+        }
+        cout << endl;
+    }
+    
+};
+
+int main()
+{
+	CDLL<int> list1;
+    list1.insertAtHead(20);
+    list1.insertAtHead(10);
+    list1.insertAtTail(30);
+    list1.insertAtTail(40);
+    list1.insertAtTail(50);
+    list1.display();
+    CDLL<int> list2;
+    list2.insertAtHead(15);
+    list2.insertAtHead(25);
+    list2.insertAtTail(80);
+    list2.insertAtTail(90);
+    list2.insertAtTail(100);
+    list2.display();
+    CDLL<int> list3;
+    list3.merge(list1,list2);
+    list3.display();
+    return 0;
+    
+
+}
