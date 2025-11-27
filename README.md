@@ -74,7 +74,8 @@ int main() {
 }
 
 ```
-# 🌟 Day 3 – Doubly Linked List (DLL)
+# 🌟 Day 3 Implementation – Doubly Linked List (DLL)
+
 
 ## ✅ Features Implemented Today
 - Insert at **head**  
@@ -114,7 +115,7 @@ int main() {
     return 0;
 }
 ```
-## 🌟 Day 4 – Circular Doubly Linked List (CDLL)
+## 🌟 Day 4 Implementation – Circular Doubly Linked List (CDLL)
 
 Today’s implementation introduces a **Circular Doubly Linked List**, where each node points both forward and backward, and the last node connects back to the first node.
 
