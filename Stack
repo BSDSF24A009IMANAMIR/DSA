@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class Stack
+{
+protected:
+    T* data;         // dynamic array
+    int maxsize;     // capacity
+    int currentsize; // current number of elements
+
+public:
+    // Constructor
+    Stack(int ms)
+    {
+        if (ms <= 0)
+        {
+            cout << "Invalid size";
+            exit(0);
+        }
+        maxsize = ms;
+        currentsize=0;
+        data = new T[maxsize]{};
+    }
+
+    // Copy constructor
+    Stack(const Stack& other)
+    {
+        maxsize = other.maxsize;
+        currentsize = other.currentsize;
+
+        data = new T[maxsize];
+        for (int i = 0; i < maxsize; i++)
+        {
+            data[i] = other.data[i];
+        }
+    }
+
+    // Destructor
+    ~Stack()
+    {
+        delete[] data;
+        data = nullptr;
+    }
+
+    // Assignment operator
+    Stack& operator=(const Stack& other)
+    {
+        if (this != &other)
+        {
+            delete[] data;
+
+            maxsize = other.maxsize;
+            currentsize = other.currentsize;
+
+            data = new T[maxsize];
+            for (int i = 0; i < maxsize; i++)
+            {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+
+    // Check if full
+    bool isFull() const
+    {
+        return currentsize == maxsize;
+    }
+
+    // Check if empty
+    bool isEmpty() const
+    {
+        return currentsize == 0;
+    }
+
+    // Push function
+    void Push(const T& value)
+    {
+        if (!isFull())
+        {
+            data[currentsize] = value;
+            currentsize++;
+        }
+        else
+        {
+            cout << "Limit reached\n";
+        }
+    }
+
+    // Pop function
+    T Pop()
+    {
+        if (!isEmpty())
+        {
+            currentsize--;
+            return data[currentsize];
+        }
+        else
+        {
+            cout << "Invalid (Stack Empty)\n";
+            return T(); // return default value
+        }
+    }
+
+    // Stack top function
+    T Stacktop() const
+    {
+        if (!isEmpty())
+        {
+            return data[currentsize - 1];
+        }
+        else
+        {
+            cout << "No top element\n";
+            return T();
+        }
+    }
+
+    // Get current size
+    int getCurrentSize() const
+    {
+        return currentsize;
+    }
+};
+
