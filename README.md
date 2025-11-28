@@ -165,4 +165,54 @@ int main() {
     return 0;
 }
 ```
+## 🌟 Day 5 Implementation – Stack (Array-Based)
+
+Today’s implementation introduces a **template-based Stack** using a **dynamic array**.  
+It supports safe memory handling, copy semantics, and all core stack operations.
+
+---
+
+### ✅ Features Implemented
+- Push (add element to top)
+- Pop (remove top element)
+- Stack Top (view last pushed element)
+- Check if stack is **full**
+- Check if stack is **empty**
+- Copy Constructor
+- Assignment Operator
+- Destructor (safe cleanup)
+- Get current size
+
+---
+
+## 📘 Example Usage
+```cpp
+#include <iostream>
+#include "Stack.h"
+using namespace std;
+
+int main() {
+    Stack<int> st(5);   // stack of size 5
+
+    st.Push(10);
+    st.Push(20);
+    st.Push(30);
+    st.Push(40);
+
+    cout << "Top element: " << st.Stacktop() << endl;  
+    // Output: 40
+
+    cout << "Popped: " << st.Pop() << endl;  
+    // Output: 40
+
+    st.Push(99);
+    cout << "New Top: " << st.Stacktop() << endl;  
+    // Output: 99
+
+    cout << "Current Size: " << st.getCurrentSize() << endl;  
+    // Output: 4
+
+    return 0;
+}
+```
 
