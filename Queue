@@ -1,0 +1,199 @@
+#include <iostream>
+#include <array>
+#include <string>
+
+using namespace std;
+
+template <typename T>
+class Queue
+{
+private:
+    T* data;          // backend linear array
+    int capacity;     // total size of the queue
+    int NoOfElments;  // current size
+    int front;        // first element of the queue
+    int rear;         // last element inserted in the queue
+
+public:
+    Queue(int c)   // natural constructor
+    {
+        this->capacity = c;
+        this->NoOfElments = 0;
+        front = 0;
+        rear = -1;
+        data = new T[capacity];
+    }
+
+    Queue(const Queue& other)  // copy constructor
+    {
+        this->capacity = other.capacity;
+        this->NoOfElments = other.NoOfElments;
+        this->front = other.front;
+        this->rear = other.rear;
+
+        data = new T[capacity];
+        for (int i = 0; i < NoOfElments; i++)
+        {
+            this->data[i] = other.data[i];
+        }
+    }
+
+    Queue& operator=(const Queue& other) // assignment operator
+    {
+        if (this != &other)   // fix self-assignment check
+        {
+            delete[] data;
+
+            this->capacity = other.capacity;
+            this->NoOfElments = other.NoOfElments;
+            this->front = other.front;
+            this->rear = other.rear;
+
+            data = new T[capacity];
+            for (int i = 0; i < NoOfElments; i++)
+            {
+                this->data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+
+    ~Queue()   // destructor
+    {
+        delete[] data;
+        data = nullptr;
+    }
+
+    bool isFull()  // checking if the queue is full
+    {
+        if (NoOfElments == capacity)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool isEmpty()  // checking if the queue is empty
+    {
+        if (NoOfElments == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void enqueue(T a)  // adding an element
+    {
+        if (!isFull())
+        {
+            rear = (rear + 1) % capacity;
+            data[rear] = a;
+            NoOfElments++;
+        }
+        else
+        {
+            cout << "Can not enqueue, Your queue is full." << endl;
+            exit(0);
+        }
+    }
+
+//    void dequeue()
+//    {
+//        if (!isEmpty())
+//        {
+////            cout << "Dequeued:" << data[front]<<endl;
+//            front = (front + 1) % capacity;
+//            NoOfElments--;
+//        }
+//        else
+//        {
+//            cout << "Can not dequeue, Your queue is empty." << endl;
+//            exit(0);
+//        }
+//    }
+
+T dequeue()
+{
+    if (!isEmpty())
+    {
+        T removedElement = data[front];  
+        front = (front + 1) % capacity;    
+        NoOfElments--;                      
+        return removedElement;            
+    }
+    else
+    {
+        cout << "Cannot dequeue, your queue is empty." << endl;
+        exit(0);
+    }
+}
+
+    void Resize()
+    {
+        T* data1 = new T[capacity * 2];
+        for (int i = 0; i < NoOfElments; i++)
+        {
+            data1[i] = data[(i + front) % capacity];
+        }
+
+        capacity = capacity * 2;
+        front = 0;
+        rear = NoOfElments-1;
+        delete[] data;
+        data = data1;
+    }
+
+    void display() const   //display function
+    {
+    	cout<<"Your queue is:"<<endl;
+        for (int i = 0; i < NoOfElments; i++)
+        {
+            cout << data[(front + i) % capacity] << endl;
+        }
+    }
+    
+    int getRear() const  //getter
+    {
+    	return rear;
+	}
+	
+	 
+	int getFrontidx()  const    //getter
+	{
+		return front;
+	}
+	
+	T getFront() const //getter
+	{
+		return data[front];
+	}
+	
+	int size() const //getter
+	{
+		return NoOfElments;
+	}
+}; 
+
+int main()
+{
+Queue<int> q(5);
+q.enqueue(14);
+q.enqueue(22);
+q.enqueue(13);
+q.enqueue(-6);
+q.display();
+q.dequeue();
+q.dequeue();
+q.display();
+q.enqueue(9);
+q.enqueue(20);
+q.enqueue(5);
+q.display();
+return 0;
+}
