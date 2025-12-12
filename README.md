@@ -233,22 +233,41 @@ Supports circular indexing, resizing, copy semantics, and all core queue operati
 * Display function
 
 ### 📘 Example Usage – Queue
-```
-int main()
-{
-Queue<int> q(5);
-q.enqueue(14);
-q.enqueue(22);
-q.enqueue(13);
-q.enqueue(-6);
-q.display();
-q.dequeue();
-q.dequeue();
-q.display();
-q.enqueue(9);
-q.enqueue(20);
-q.enqueue(5);
-q.display();
-return 0;
+#include <iostream>
+#include "Queue.h"  // Make sure your Queue class is in this header
+using namespace std;
+
+int main() {
+    Queue<int> q(5);  // Queue of size 5
+
+    q.enqueue(14);
+    q.enqueue(22);
+    q.enqueue(13);
+    q.enqueue(-6);
+
+    cout << "Front element: " << q.getFront() << endl;  
+    // Output: 14
+
+    cout << "Dequeued: " << q.dequeue() << endl;  
+    // Output: 14
+
+    cout << "Dequeued: " << q.dequeue() << endl;  
+    // Output: 22
+
+    q.enqueue(9);
+    q.enqueue(20);
+    q.enqueue(5);
+
+    cout << "Front element: " << q.getFront() << endl;  
+    // Output: 13
+
+    cout << "Current Size: " << q.size() << endl;  
+    // Output: 5
+
+    cout << "Queue elements: " << endl;
+    q.display();
+    // Output: 13 -6 9 20 5 (or similar, depending on enqueue order)
+
+    return 0;
 }
 ```
