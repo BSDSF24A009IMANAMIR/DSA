@@ -233,6 +233,7 @@ Supports circular indexing, resizing, copy semantics, and all core queue operati
 * Display function
 
 ### 📘 Example Usage – Queue
+```
 #include <iostream>
 #include "Queue.h"  // Make sure your Queue class is in this header
 using namespace std;
