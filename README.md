@@ -215,4 +215,40 @@ int main() {
     return 0;
 }
 ```
+## 🌟 Day 6 Implementation – Queue (Circular / Array-Based)
 
+Today’s implementation introduces a template-based **Circular Queue** using a dynamic array.  
+Supports circular indexing, resizing, copy semantics, and all core queue operations.
+
+**✅ Features Implemented**
+
+* Enqueue (insert at rear)
+* Dequeue (remove from front)
+* Circular indexing using modulo
+* Automatic resizing when full
+* Copy Constructor
+* Assignment Operator
+* Destructor (safe cleanup)
+* Getters: front index, rear index, size, front element
+* Display function
+
+### 📘 Example Usage – Queue
+```
+int main()
+{
+Queue<int> q(5);
+q.enqueue(14);
+q.enqueue(22);
+q.enqueue(13);
+q.enqueue(-6);
+q.display();
+q.dequeue();
+q.dequeue();
+q.display();
+q.enqueue(9);
+q.enqueue(20);
+q.enqueue(5);
+q.display();
+return 0;
+}
+```
