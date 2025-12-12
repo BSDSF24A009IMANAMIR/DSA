@@ -233,7 +233,8 @@ Supports circular indexing, resizing, copy semantics, and all core queue operati
 * Display function
 
 ### 📘 Example Usage – Queue
-```
+
+```cpp
 #include <iostream>
 #include "Queue.h"  // Make sure your Queue class is in this header
 using namespace std;
@@ -271,4 +272,4 @@ int main() {
 
     return 0;
 }
-```
+
